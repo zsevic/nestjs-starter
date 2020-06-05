@@ -2,11 +2,11 @@ import * as crypto from 'crypto';
 import { BadRequestException, Logger } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { EntityRepository, Repository } from 'typeorm';
+import { Transactional } from 'typeorm-transactional-cls-hooked';
 import { AppRoles } from 'modules/auth/roles/roles.enum';
 import { RegisterUserDto } from './dto';
 import { UserEntity } from './user.entity';
 import { User } from './user.payload';
-import { Transactional } from 'typeorm-transactional-cls-hooked';
 
 @EntityRepository(UserEntity)
 export class UserRepository extends Repository<UserEntity> {
@@ -69,16 +69,14 @@ export class UserRepository extends Repository<UserEntity> {
   }
 
   @Transactional()
-  async register(payload: RegisterUserDto) {
+  async register(payload: RegisterUserDto): Promise<UserEntity> {
     const newUser = new UserEntity();
     newUser.email = payload.email;
     newUser.name = payload.name;
     newUser.password = payload.password;
     newUser.role = AppRoles.USER;
 
-    const savedUser = await this.save(newUser);
-
-    return plainToClass(User, savedUser);
+    return this.save(newUser);
   }
 
   async updateRefreshToken(
