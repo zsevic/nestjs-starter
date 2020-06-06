@@ -1,4 +1,4 @@
-import { CommandHandler, ICommandHandler, EventPublisher } from '@nestjs/cqrs';
+import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
 import { RegisterUserCommand } from 'modules/user/commands/impl/register-user.command';
 import { User } from 'modules/user/user.model';
 import { UserRepository } from 'modules/user/user.repository';
@@ -7,8 +7,8 @@ import { UserRepository } from 'modules/user/user.repository';
 export class RegisterUserHandler
   implements ICommandHandler<RegisterUserCommand> {
   constructor(
-    private repository: UserRepository,
     private publisher: EventPublisher,
+    private repository: UserRepository,
   ) {}
 
   async execute(command: RegisterUserCommand) {

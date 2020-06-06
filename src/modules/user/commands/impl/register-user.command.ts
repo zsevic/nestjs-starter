@@ -1,6 +1,5 @@
-import { ICommand } from '@nestjs/cqrs';
 import { RegisterUserDto } from 'modules/user/dto';
 
-export class RegisterUserCommand implements ICommand {
+export class RegisterUserCommand {
   constructor(public readonly userDto: RegisterUserDto) {}
 }

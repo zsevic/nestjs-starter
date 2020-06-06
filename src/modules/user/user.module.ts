@@ -1,13 +1,10 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RegisterUserHandler } from './commands/handlers/register-user.handler';
-import { UserRegisteredEvent } from './events/impl/user-registered.event';
+import { CommandHandlers } from './commands/handlers';
+import { EventHandlers } from './events/handlers';
 import { UserService } from './user.service';
 import { UserRepository } from './user.repository';
-
-const CommandHandlers = [RegisterUserHandler];
-const EventHandlers = [UserRegisteredEvent];
 
 @Module({
   imports: [CqrsModule, TypeOrmModule.forFeature([UserRepository])],
