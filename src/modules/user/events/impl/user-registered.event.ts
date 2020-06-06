@@ -1,3 +1,1 @@
-export class UserRegisteredEvent {
-  constructor(public readonly email: string) {}
-}
+export class UserRegisteredEvent {}
