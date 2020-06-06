@@ -3,12 +3,13 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommandHandlers } from './commands/handlers';
 import { EventHandlers } from './events/handlers';
-import { UserService } from './user.service';
 import { UserRepository } from './user.repository';
+import { UserSagas } from './user.sagas';
+import { UserService } from './user.service';
 
 @Module({
   imports: [CqrsModule, TypeOrmModule.forFeature([UserRepository])],
-  providers: [UserService, ...CommandHandlers, ...EventHandlers],
+  providers: [...CommandHandlers, ...EventHandlers, UserSagas, UserService],
   exports: [UserService],
 })
 export class UserModule {}
