@@ -14,8 +14,8 @@ export class RegisterUserHandler
     private repository: UserRepository,
   ) {}
 
-  async execute(command: RegisterUserCommand) {
-    this.logger.log('RegisterUserCommand...');
+  async execute(command: RegisterUserCommand): Promise<void> {
+    this.logger.debug('RegisterUserCommand...');
     const registeredUser = await this.repository.register(command.userDto);
 
     const user = this.publisher.mergeObjectContext(

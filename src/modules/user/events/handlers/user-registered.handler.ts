@@ -9,6 +9,6 @@ export class UserRegisteredHandler
 
   // eslint-disable-next-line
   handle(event: UserRegisteredEvent) {
-    this.logger.log('UserRegisteredEvent...');
+    this.logger.debug('UserRegisteredEvent...');
   }
 }
