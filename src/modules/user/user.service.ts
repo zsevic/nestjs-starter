@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { CommandBus, /* QueryBus */ } from '@nestjs/cqrs';
 import { RegisterUserCommand } from './commands/impl/register-user.command';
 import { RegisterUserDto } from './dto';
-import { ValidateUserQuery } from './queries/impl/validate-user.query';
+// import { ValidateUserQuery } from './queries/impl/validate-user.query';
 import { User } from './user.payload';
 import { UserRepository } from './user.repository';
 
@@ -10,7 +10,7 @@ import { UserRepository } from './user.repository';
 export class UserService {
   constructor(
     private commandBus: CommandBus,
-    private queryBus: QueryBus,
+    // private queryBus: QueryBus,
     private readonly userRepository: UserRepository,
   ) {}
 
@@ -41,9 +41,9 @@ export class UserService {
   }
 
   async register(payload: RegisterUserDto): Promise<void> {
-    await this.queryBus.execute(
-      new ValidateUserQuery(payload.name, payload.email),
-    );
+    // await this.queryBus.execute(
+    //   new ValidateUserQuery(payload.name, payload.email),
+    // );
     return this.commandBus.execute(new RegisterUserCommand(payload));
   }
 

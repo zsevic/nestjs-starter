@@ -13,7 +13,7 @@ export class UserSagas {
     events$.pipe(
       ofType(UserRegisteredEvent),
       map(() => {
-        this.logger.log('Inside [UserSagas] Saga');
+        this.logger.debug('Inside [UserSagas] Saga');
       }),
     );
 }
