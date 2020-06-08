@@ -1,3 +1,3 @@
-import { RegisterUserHandler } from './register-user.handler';
+import { RegisterUserCommandHandler } from './register-user.handler';
 
-export const CommandHandlers = [RegisterUserHandler];
+export const CommandHandlers = [RegisterUserCommandHandler];

@@ -4,8 +4,8 @@ import { ValidateUserQuery } from 'modules/user/queries/impl/validate-user.query
 import { UserRepository } from 'modules/user/user.repository';
 
 @QueryHandler(ValidateUserQuery)
-export class ValidateUserHandler implements IQueryHandler<ValidateUserQuery> {
-  private readonly logger = new Logger(ValidateUserHandler.name);
+export class ValidateUserQueryHandler implements IQueryHandler<ValidateUserQuery> {
+  private readonly logger = new Logger(ValidateUserQueryHandler.name);
   constructor(private readonly userRepository: UserRepository) {}
 
   async execute(query: ValidateUserQuery): Promise<void> {

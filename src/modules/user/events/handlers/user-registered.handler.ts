@@ -3,9 +3,9 @@ import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { UserRegisteredEvent } from 'modules/user/events/impl/user-registered.event';
 
 @EventsHandler(UserRegisteredEvent)
-export class UserRegisteredHandler
+export class UserRegisteredEventHandler
   implements IEventHandler<UserRegisteredEvent> {
-  private readonly logger = new Logger(UserRegisteredHandler.name);
+  private readonly logger = new Logger(UserRegisteredEventHandler.name);
 
   // eslint-disable-next-line
   handle(event: UserRegisteredEvent) {

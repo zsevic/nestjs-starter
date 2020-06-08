@@ -5,9 +5,9 @@ import { User } from 'modules/user/user.model';
 import { UserRepository } from 'modules/user/user.repository';
 
 @CommandHandler(RegisterUserCommand)
-export class RegisterUserHandler
+export class RegisterUserCommandHandler
   implements ICommandHandler<RegisterUserCommand> {
-  private readonly logger = new Logger(RegisterUserHandler.name);
+  private readonly logger = new Logger(RegisterUserCommandHandler.name);
 
   constructor(
     private publisher: EventPublisher,

@@ -1,3 +1,3 @@
-import { UserRegisteredHandler } from './user-registered.handler';
+import { UserRegisteredEventHandler } from './user-registered.handler';
 
-export const EventHandlers = [UserRegisteredHandler];
+export const EventHandlers = [UserRegisteredEventHandler];

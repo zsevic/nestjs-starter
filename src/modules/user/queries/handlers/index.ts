@@ -1,3 +1,3 @@
-import { ValidateUserHandler } from './validate-user.handler';
+import { ValidateUserQueryHandler } from './validate-user.handler';
 
-export const QueryHandlers = [ValidateUserHandler];
+export const QueryHandlers = [ValidateUserQueryHandler];
