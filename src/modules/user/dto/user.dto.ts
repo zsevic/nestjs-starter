@@ -3,8 +3,10 @@ import { Exclude } from 'class-transformer';
 export class User {
   id?: string;
 
+  @Exclude()
   facebook_id?: string;
 
+  @Exclude()
   google_id?: string;
 
   name: string;
