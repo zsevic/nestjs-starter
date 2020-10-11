@@ -1,83 +1,75 @@
 import * as crypto from 'crypto';
 import { BadRequestException, Logger } from '@nestjs/common';
-import { plainToClass } from 'class-transformer';
 import { EntityRepository, Repository } from 'typeorm';
+import { Transactional } from 'typeorm-transactional-cls-hooked';
+import { methodTransformToDto } from 'common/decorators';
 import { AppRoles } from 'modules/auth/roles/roles.enum';
 import { RegisterUserDto, User } from './dto';
 import { UserEntity } from './user.entity';
-import { Transactional } from 'typeorm-transactional-cls-hooked';
 
 @EntityRepository(UserEntity)
 export class UserRepository extends Repository<UserEntity> {
   private readonly logger = new Logger(UserRepository.name);
 
-  async get(id: string): Promise<User> {
-    const user = await this.findOne(id);
-
-    return plainToClass(User, user);
+  @methodTransformToDto(User)
+  async get(id: string): Promise<UserEntity> {
+    return this.findOne(id);
   }
 
-  async getByEmail(email: string): Promise<User> {
-    const user = await this.findOne({
+  @methodTransformToDto(User)
+  async getByEmail(email: string): Promise<UserEntity> {
+    return this.findOne({
       select: ['id', 'avatar', 'email', 'name', 'role'],
       where: { email },
     });
-
-    return plainToClass(User, user);
   }
 
-  async getByEmailAndPassword(email: string, password: string): Promise<User> {
+  @methodTransformToDto(User)
+  async getByEmailAndPassword(
+    email: string,
+    password: string,
+  ): Promise<UserEntity> {
     const passwordHash = crypto.createHmac('sha256', password).digest('hex');
 
-    const user = await this.createQueryBuilder('user')
+    return this.createQueryBuilder('user')
       .where('user.email = :email and user.password = :password')
       .setParameter('email', email)
       .setParameter('password', passwordHash)
       .getOne();
-
-    return plainToClass(User, user);
   }
 
-  async getByRefreshToken(refreshToken: string): Promise<User> {
+  @methodTransformToDto(User)
+  async getByRefreshToken(refreshToken: string): Promise<UserEntity> {
     const user = await this.findOne({ refresh_token: refreshToken });
     if (!user) {
       throw new BadRequestException('Refresh token is not valid');
     }
 
-    return plainToClass(User, user);
+    return user;
   }
 
-  async createUser(profile: any): Promise<User> {
+  @methodTransformToDto(User)
+  async createUser(profile: any): Promise<UserEntity> {
     const provider_id = `${profile.provider}_id`;
-    const newUser = await this.save({
+    return this.save({
       [provider_id]: profile.id,
       avatar: profile.picture,
       email: profile.email,
       name: profile.displayName,
       role: AppRoles.USER,
     });
-    const user = {
-      id: newUser.id,
-      avatar: newUser.avatar,
-      email: newUser.email,
-      name: newUser.name,
-      role: newUser.role,
-    };
-
-    return plainToClass(User, user);
   }
 
+  @methodTransformToDto(User)
   @Transactional()
-  async register(payload: RegisterUserDto) {
+  async register(payload: RegisterUserDto): Promise<UserEntity> {
     const newUser = new UserEntity();
     newUser.email = payload.email;
     newUser.name = payload.name;
     newUser.password = payload.password;
     newUser.role = AppRoles.USER;
 
-    const savedUser = await this.save(newUser);
-
-    return plainToClass(User, savedUser);
+    return this.save(newUser);
   }
 
   async updateRefreshToken(
