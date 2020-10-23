@@ -69,7 +69,9 @@ export class UserRepository extends Repository<UserEntity> {
     newUser.password = payload.password;
     newUser.role = AppRoles.USER;
 
-    return this.save(newUser);
+    return this.save(newUser).catch(() => {
+      throw new BadRequestException();
+    });
   }
 
   async updateRefreshToken(

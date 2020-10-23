@@ -1,4 +1,6 @@
+import { validateOrReject } from 'class-validator';
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -51,4 +53,9 @@ export class UserEntity {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @BeforeInsert()
+  async validate() {
+    await validateOrReject(this);
+  }
 }
