@@ -20,6 +20,7 @@ export default registerAs('database', () => {
     test: {
       ...options,
       database: 'test.sqlite',
+      entities: ['src/**/*.entity.ts'],
       dropSchema: true,
       synchronize: true,
       type: 'sqlite',
