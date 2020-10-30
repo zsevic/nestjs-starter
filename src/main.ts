@@ -20,7 +20,7 @@ async function bootstrap(): Promise<void> {
   app.enableShutdownHooks();
   app.get(AppModule).subscribeToShutdown(() => app.close());
 
-  app.use(cookieParser());
+  app.use(cookieParser(configService.get('COOKIE_SECRET')));
   app.use(loggerMiddleware);
   app.useGlobalFilters(new AllExceptionsFilter());
   app.useGlobalPipes(

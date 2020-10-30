@@ -38,7 +38,7 @@ export class CustomAuthGuard extends AuthGuard('jwt') {
       const isValidAccessToken = this.authService.validateToken(accessToken);
       if (isValidAccessToken) return this.activate(context);
 
-      const refreshToken = request.cookies[REFRESH_TOKEN_COOKIE_NAME];
+      const refreshToken = request.signedCookies[REFRESH_TOKEN_COOKIE_NAME];
       if (!refreshToken)
         throw new UnauthorizedException('Refresh token is not set');
       const isValidRefreshToken = this.authService.validateToken(refreshToken);
@@ -53,8 +53,8 @@ export class CustomAuthGuard extends AuthGuard('jwt') {
 
       await this.userService.updateRefreshToken(user.id, newRefreshToken);
 
-      request.cookies[ACCESS_TOKEN_COOKIE_NAME] = newAccessToken;
-      request.cookies[REFRESH_TOKEN_COOKIE_NAME] = newRefreshToken;
+      request.signedCookies[ACCESS_TOKEN_COOKIE_NAME] = newAccessToken;
+      request.signedCookies[REFRESH_TOKEN_COOKIE_NAME] = newRefreshToken;
 
       response.cookie(ACCESS_TOKEN_COOKIE_NAME, newAccessToken, COOKIE_OPTIONS);
       response.cookie(
