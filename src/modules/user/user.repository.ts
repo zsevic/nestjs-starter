@@ -1,4 +1,4 @@
-import * as crypto from 'crypto';
+import crypto from 'crypto';
 import { BadRequestException, Logger } from '@nestjs/common';
 import { EntityRepository, Repository } from 'typeorm';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
