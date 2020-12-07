@@ -2,6 +2,8 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
+  HttpStatus,
   Logger,
   Post,
   Request,
@@ -33,6 +35,7 @@ export class AuthController {
   ) {}
 
   @Post('login')
+  @HttpCode(HttpStatus.OK)
   async login(@Body() payload: LoginUserDto, @Res() res): Promise<User> {
     const user = await this.authService.validateUser(payload);
     const { accessToken, refreshToken } = this.authService.createTokens(
