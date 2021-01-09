@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+  api:
+    build:
+      context: .
+      target: build_stage
+    command: npm run start:dev

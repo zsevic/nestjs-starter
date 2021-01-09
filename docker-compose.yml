@@ -1,11 +1,19 @@
-version: '3.5'
+version: '3.8'
 services:
-  main:
-    container_name: main
-    build:
-      context: .
-      target: build_stage
-    command: npm run start:dev
+  database:
+    image: postgres
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=$DATABASE_USERNAME
+      - POSTGRES_PASSWORD=$DATABASE_PASSWORD
+      - POSTGRES_DB=$DATABASE_NAME
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - 5433:5432
+
+  api:
     volumes:
       - .:/home/app
       - /home/app/node_modules
@@ -13,9 +21,8 @@ services:
       - 8080:8080
     env_file:
       - .env
-    networks:
-      - webnet
+    depends_on:
+      - database
 
-networks:
-  webnet:
-    external: true
+volumes:
+  db_data:

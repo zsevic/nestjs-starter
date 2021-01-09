@@ -1,37 +1,13 @@
 import path from 'path';
 import { registerAs } from '@nestjs/config';
 
-const options = {
+export default registerAs('database', () => ({
   entities: [path.join(__dirname, '/../../../**/*.entity.{js,ts}')],
   keepConnectionAlive: true,
   logging: false,
   migrations: ['dist/database/migrations/*{.ts,.js}'],
   migrationsTableName: 'migrations',
   synchronize: false,
-};
-
-export default registerAs('database', () => {
-  const environmentsConfig = {
-    production: {
-      ...options,
-      type: 'postgres',
-      url: process.env.DATABASE_URL,
-    },
-    test: {
-      ...options,
-      database: 'test.sqlite',
-      entities: ['src/**/*.entity.ts'],
-      dropSchema: true,
-      synchronize: true,
-      type: 'sqlite',
-    },
-    development: {
-      ...options,
-      database: 'database.sqlite',
-      type: 'sqlite',
-    },
-  };
-  const currentEnvironment = process.env.NODE_ENV || 'development';
-
-  return environmentsConfig[currentEnvironment];
-});
+  type: 'postgres',
+  url: process.env.DATABASE_URL,
+}));

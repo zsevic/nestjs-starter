@@ -21,17 +21,13 @@ npm run build
 npm start
 ```
 
-### Docker build
-
-```bash
-docker build -t nestjs-starter .
-docker run -e PORT=8080 -d -p 8080:8080 nestjs-starter
-```
-
 ### Docker compose
 
 ```bash
-docker-compose up --build -V
+cp .env.sample .env
+docker-compose up --build -V --remove-orphans # for development environment
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build -V
+docker-compose down
 ```
 
 ### Linting
