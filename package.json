@@ -1,7 +1,7 @@
 {
   "name": "nestjs-starter",
   "version": "0.0.1",
-  "description": "",
+  "description": "Minimal NestJS boilerplate",
   "author": "",
   "license": "MIT",
   "scripts": {

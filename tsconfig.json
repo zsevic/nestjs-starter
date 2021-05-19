@@ -8,7 +8,11 @@
     "incremental": true,
     "module": "commonjs",
     "outDir": "./dist",
+    "paths": {
+      "root/*": ["../*"]
+    },
     "removeComments": true,
+    "resolveJsonModule": true,
     "sourceMap": true,
     "target": "es2017"
   },
