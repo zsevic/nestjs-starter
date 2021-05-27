@@ -1,19 +1,10 @@
 import { validateOrReject } from 'class-validator';
-import {
-  BeforeInsert,
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { BeforeInsert, Column, Entity } from 'typeorm';
+import { BaseEntity } from 'common/entities/base.entity';
 import { PasswordTransformer } from './transformers/password.transformer';
 
 @Entity('user')
-export class UserEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+export class UserEntity extends BaseEntity {
   @Column({
     nullable: true,
   })
@@ -47,12 +38,6 @@ export class UserEntity {
 
   @Column()
   role: string;
-
-  @CreateDateColumn()
-  created_at: Date;
-
-  @UpdateDateColumn()
-  updated_at: Date;
 
   @BeforeInsert()
   async validate() {
